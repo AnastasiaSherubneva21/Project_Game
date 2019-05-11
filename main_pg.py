@@ -2,7 +2,7 @@ from livewires import games, color
 import random
 import datetime
 
-games.init(screen_width=800, screen_height=600, fps=50)
+games.init(screen_width=600, screen_height=450, fps=50)
 
 
 class Lesya_Ukrainka(games.Sprite):
@@ -22,12 +22,6 @@ class Lesya_Ukrainka(games.Sprite):
         games.screen.add(self.stone)
         self.cf = 0
         self.time_of_waiting = 0
-
-    def check_flowers(self):
-        cf = 0
-        for i in self.terra_lst:
-            cf += i.count
-        return cf
 
     def update(self):
         if self.time_of_waiting > 0:
@@ -53,8 +47,8 @@ class Lesya_Ukrainka(games.Sprite):
             self.x = games.screen.width - 150
         if self.y > (games.screen.height - 50):
             self.y = games.screen.height - 50
-        if self.y < (games.screen.height*2/3):
-            self.y = games.screen.height*2/3
+        if self.y < (games.screen.height/2):
+            self.y = games.screen.height/2
 
         cf = 0
         for i in self.terra_lst:
@@ -76,7 +70,23 @@ class Stone(games.Sprite):
 
     def update(self):
 
-        if self.y <= 80:
+        if (games.screen.height - 210) < self.y <= (games.screen.height - 135):
+            background = games.load_image('img/background_2.jpg', transparent=False)
+            games.screen.background = background
+        if (games.screen.height - 285) < self.y <= (games.screen.height - 210):
+            background = games.load_image('img/background_3.jpg', transparent=False)
+            games.screen.background = background
+        if (games.screen.height - 360) < self.y <= (games.screen.height - 285):
+            background = games.load_image('img/background_4.jpg', transparent=False)
+            games.screen.background = background
+        if (games.screen.height - 435) < self.y <= (games.screen.height - 360):
+            background = games.load_image('img/background_5.jpg', transparent=False)
+            games.screen.background = background
+        if self.y < (games.screen.height - 435):
+            background = games.load_image('img/background_6.jpg', transparent=False)
+            games.screen.background = background
+
+        if self.y <= 70:
             self.timestop = datetime.datetime.now()
             time = (self.timestop - self.timestart).seconds
             timetext = 'Ваш результат: ' + str(time) + 'секунд'
@@ -86,13 +96,13 @@ class Stone(games.Sprite):
                 text = 'Вы - Лукаш'
             else:
                 text = 'Вы - Килина'
-            message_end_1 = games.Message(value='Конец игры', size=50, color=color.dark_gray,
-                                    x=games.screen.width / 2, y=games.screen.height/4,
-                                    lifetime=2*games.screen.fps, after_death=games.screen.quit)
-            message_end_2 = games.Message(value=timetext, size=50, color=color.dark_gray,
+            message_end_1 = games.Message(value='Конец игры', size=50, color=color.brown,
+                                          x=games.screen.width / 2, y=games.screen.height/4,
+                                          lifetime=2*games.screen.fps, after_death=games.screen.quit)
+            message_end_2 = games.Message(value=timetext, size=50, color=color.brown,
                                           x=games.screen.width / 2, y=games.screen.height/3,
                                           lifetime=2 * games.screen.fps, after_death=games.screen.quit)
-            message_end_3 = games.Message(value=text, size=50, color=color.dark_gray,
+            message_end_3 = games.Message(value=text, size=50, color=color.brown,
                                           x=games.screen.width / 2, y=games.screen.height*5/12,
                                           lifetime=2 * games.screen.fps, after_death=games.screen.quit)
             games.screen.add(message_end_1)
@@ -161,14 +171,19 @@ class Game:
         games.screen.add(self.LU)
 
     def playing(self):
-        message_start = games.Message(value='Lesya Ukrainka`s world', size=50, color=color.dark_gray,
-                                    x=games.screen.width / 2, y=games.screen.height / 2.5,
-                                    lifetime=2*games.screen.fps)
+        message_start = games.Message(value='Lesya Ukrainka`s world', size=50, color=color.brown,
+                                      x=games.screen.width / 2, y=games.screen.height / 2.5,
+                                      lifetime=2*games.screen.fps)
         games.screen.add(message_start)
-        background = games.load_image('img/background.jpg', transparent=False)
+        background = games.load_image('img/background_1.jpg', transparent=False)
         games.screen.background = background
         games.screen.mainloop()
 
 
-Lesya_Ukrainka_s_world = Game()
-Lesya_Ukrainka_s_world.playing()
+def main():
+    Lesya_Ukrainka_s_world = Game()
+    Lesya_Ukrainka_s_world.playing()
+
+
+if __name__ == main():
+    main()
